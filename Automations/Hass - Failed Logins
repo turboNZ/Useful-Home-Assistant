@@ -1,7 +1,7 @@
 alias: Hass - Failed Login Automation
 description: >-
   Notification and automation of failed logins to Home Assistant into a text
-  list.
+  input helper.
 triggers:
   - update_type:
       - added
@@ -40,4 +40,8 @@ actions:
                   {{ current_ips | join(', ') }}
                 {% endif %}
             action: input_text.set_value
+          - action: persistent_notification.dismiss
+            metadata: {}
+            data:
+              notification_id: http-login
 mode: single
