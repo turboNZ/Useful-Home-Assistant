@@ -1,20 +1,15 @@
-alias: Hass - Failed Login Automation
+alias: Core - Hass - Failed Login Automation
 description: >-
   Notification and automation of failed logins to Home Assistant into a text
-  input helper.
+  list.
 triggers:
   - update_type:
       - added
       - current
       - updated
     trigger: persistent_notification
-conditions:
-  - condition: template
-    value_template: >-
-      {% set message = trigger.notification.message %} {{ 'Too many login
-      attempts' in message or
-         'invalid authentication' in message or
-         'login attempt' in message }}
+    notification_id: http-login
+conditions: []
 actions:
   - parallel:
       - data:
@@ -40,8 +35,8 @@ actions:
                   {{ current_ips | join(', ') }}
                 {% endif %}
             action: input_text.set_value
-          - action: persistent_notification.dismiss
-            metadata: {}
-            data:
-              notification_id: http-login
+  - action: persistent_notification.dismiss
+    metadata: {}
+    data:
+      notification_id: http-login
 mode: single
